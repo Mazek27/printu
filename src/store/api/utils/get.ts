@@ -23,9 +23,6 @@ export async function get<T>(url: string, config = {}): Promise<ApiResponse<T>> 
       if (axiosError.response) {
         const transformedError = {
             message: axiosError.response.data.message,
-            status: axiosError.response.status,
-            data: axiosError.response.data,
-            headers: axiosError.response.headers,
         };
         throw new ApiError(transformedError);
       } else if (axiosError.request) {

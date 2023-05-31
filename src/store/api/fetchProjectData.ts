@@ -1,7 +1,7 @@
 import {get} from "./utils/get";
 import {ProjectInitResponseType, ProjectResponseType} from "../redux/project/model";
 
-export const fetchProject = (id: string) => {
+export const fetchProjectData = (id: string) => {
   return get<ProjectResponseType>(`project/${id}`)
 }
 

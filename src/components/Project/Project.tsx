@@ -8,15 +8,12 @@ import {useProject} from "./project.hooks";
 
 
 const Project: FC = () => {
-  const { project, isLoading, error, loadProject } = useProject()
+  const { project, isLoading, error, fetchProject } = useProject()
 
   return (
     <>
-      <ProjectFetcher handleFetchData={ loadProject }/>
-      { !!project && (
-        !isLoading && !error &&
-          <ProjectDetails id={ project.id } name={ project.name }/>
-      )}
+      <ProjectFetcher handleFetchData={ fetchProject }/>
+      { project  && <ProjectDetails id={ project.id } name={ project.name }/> }
       { error && <div>{ error.message }</div> }
 
       <Palette>

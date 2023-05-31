@@ -19,7 +19,7 @@ export type ProjectType = {
 
 export type ProjectItem = {
   id: string,
-  type: 'rectangle' | 'ellipse',
+  type: ProjectsType,
   color: string,
   rotation: number,
   x: number,
@@ -27,3 +27,5 @@ export type ProjectItem = {
   width: number,
   height: number
 }
+
+export type ProjectsType =  'rectangle' | 'ellipse'

@@ -1,9 +1,11 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 import {ProjectType} from "./model";
+import {fetchProject} from "./api";
+import {isCorrectProject} from "../../../utils/isCorrectProject";
 
 export interface ProjectState {
   isLoading: boolean;
-  error?: { message: string };
+  error?: any;
   project?: ProjectType;
 }
 
@@ -14,22 +16,31 @@ const initState: ProjectState = {
 const projectSlice = createSlice({
   name: 'project',
   initialState: initState,
-  reducers: {
-    getProjectStart: state => {
-      state.isLoading = true;
-    },
-    getProjectSuccess: (state, action: PayloadAction<ProjectType>) => {
-      state.isLoading = false;
-      state.project = action.payload;
-      state.error = undefined;
-    },
-    getProjectFailure: (state, action: PayloadAction<{ message: string }>) => {
-      state.isLoading = false;
-      state.project = undefined;
-      state.error = action.payload;
-    }
-  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchProject.pending, (state) => {
+        state.project = undefined;
+        state.isLoading = true;
+      })
+      .addCase(fetchProject.fulfilled, (state, action) => {
+        state.isLoading = false;
+
+        if(isCorrectProject(action.payload)) {
+          state.project = action.payload.project;
+          state.error = undefined;
+        } else {
+          state.project = undefined;
+          state.error = { message: 'Project data is not correct'}
+        }
+
+      })
+      .addCase(fetchProject.rejected, (state, action) => {
+        state.isLoading = false;
+        state.project = undefined;
+        state.error = JSON.parse(action.error.message!);
+      })
+  }
 });
 
-export const { getProjectStart, getProjectSuccess, getProjectFailure } = projectSlice.actions;
 export default projectSlice.reducer;

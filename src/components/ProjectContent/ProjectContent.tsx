@@ -15,13 +15,13 @@ const ProjectContent: FC<ProjectContentProps> = ({project, isLoading}) => {
     )
   }
 
-  if (!project && !isLoading) {
+  if (!project) {
     return (
       <div>Empty</div>
     )
   }
 
-  return project ? (
+  return (
     <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
          style={ {flex: '0 1 100%'} }
          width="100%"
@@ -43,7 +43,7 @@ const ProjectContent: FC<ProjectContentProps> = ({project, isLoading}) => {
       </svg>
     </svg>
 
-  ) : null
+  )
 };
 
 export default ProjectContent;
